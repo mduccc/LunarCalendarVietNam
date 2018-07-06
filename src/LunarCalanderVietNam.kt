@@ -1,10 +1,8 @@
 import java.lang.Math.PI
-import jdk.nashorn.internal.runtime.PropertyMap.diff
-
 
 
 class LunarCalendar{
-    fun jdFromDate(dd: Int, mm: Int, yy: Int): Long {
+    private fun jdFromDate(dd: Int, mm: Int, yy: Int): Long {
         val a = Math.floor(((14 - mm) / 12).toDouble())
         val y = yy + 4800 - a
         val m = mm + 12 * a - 3
@@ -15,9 +13,9 @@ class LunarCalendar{
         return jd.toLong()
     }
 
-    fun getNewMoonDay(k: Double, timeZone: Float): Long{
+    private fun getNewMoonDay(k: Double, timeZone: Float): Long{
         val deltat: Double
-        val T = k/1236.85 // Time in Julian centuries from 1900 January 0.5
+        val T = k/1236.85
         val T2 = T * T
         val T3 = T2 * T
         val dr = PI/180
@@ -42,7 +40,7 @@ class LunarCalendar{
         return Math.floor(JdNew + 0.5 + timeZone/24).toLong()
     }
 
-    fun getSunLongitude(jdn: Long, timeZone: Float): Double {
+    private fun getSunLongitude(jdn: Long, timeZone: Float): Double {
         val T = (jdn - 2451545.5 - timeZone/24) / 36525
         val T2 = T*T
         val dr = PI/180 // degree to radian
@@ -56,7 +54,7 @@ class LunarCalendar{
         return Math.floor(L / PI * 6)
     }
 
-    fun getLunarMonth11(yy: Int,timeZone: Float): Long{
+    private fun getLunarMonth11(yy: Int, timeZone: Float): Long{
         val off = jdFromDate(31, 12, yy) - 2415021
         val k = Math.floor(off / 29.530588853)
         var nm = getNewMoonDay(k, timeZone)
@@ -66,7 +64,7 @@ class LunarCalendar{
         return nm
     }
 
-    fun getLeapMonthOffset(a11: Long, timeZone: Float): Int{
+    private fun getLeapMonthOffset(a11: Long, timeZone: Float): Int{
         val k = Math.floor((a11 - 2415021.076998695) / 29.530588853 + 0.5)
         var last: Double
         var i = 1
