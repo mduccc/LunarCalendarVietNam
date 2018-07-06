@@ -118,8 +118,6 @@ class LunarCalendar{
     }
 }
 
-
-
 fun main(args: Array<String>){
     val lunarCal =  LunarCalendar()
     print(lunarCal.convertSolar2Lunar(7,7,2018,7f))
